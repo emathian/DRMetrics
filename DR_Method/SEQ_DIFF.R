@@ -220,8 +220,14 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
       }
     }
     if(dim(data_diff_mean_k)[2] == 3){
+      if(dim(data_diff_mean_k)[1] < 30){
       WT = wilcox.test(data_diff_mean_k[,2], data_diff_mean_k[, 3], paired = TRUE)
       print(WT)
+      }
+      else{
+        WT = t.test(data_diff_mean_k[,2], data_diff_mean_k[, 3], paired = TRUE)
+        print(WT)
+      }
       if (graphics == TRUE){
         return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p, 'stats' = list("WT" = WT)))
       }
@@ -235,8 +241,13 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
         c_df <- data.frame('mean_seq' = data_diff_mean_k[, i], 'method'=rep(paste(colnames(data_diff_mean_k)[i], i, sep = ""), dim(data_diff_mean_k)[1]))
         pwt_df <- rbind(pwt_df, c_df )
       }
+      if (dim(data_diff_mean_k)[1] < 30){
       paired_test_m  <- pairwise.wilcox.test(pwt_df$mean_seq, pwt_df$method,    paired = TRUE)$p.value #p.adj = "holm",
-      
+      }
+      else{
+        paired_test_m  <-  pairwise.t.test(pwt_df$mean_seq, pwt_df$method,    paired = TRUE)$p.value #p.adj = "holm",
+        
+      }
       if (graphics == TRUE){
         return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p,  'pWT' = paired_test_m ))
       }
@@ -283,7 +294,7 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     theme_set(theme_bw())
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values k  between each method and the reference one. ",
+    p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values by k levels, between each method and the reference one. ",
          y=TeX("$log(\\bar{SD}_k)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                    plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                    plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -305,7 +316,7 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     theme_set(theme_bw())
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values k  between each method and the reference one. ",
+    p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values k by k levels, between each method and the reference one. ",
                    y=TeX("$log(\\bar{SD}_k)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                      plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                      plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
