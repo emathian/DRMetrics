@@ -421,8 +421,19 @@ moran_ranking <-function(l_coords_data , spatial_data, K_value, N  ,ref=NULL,met
     first_cor_list[[i]] <- sortN_l
   }
   names(first_cor_list) <- names(List_coords)
-    
-  v.table<- venn(first_cor_list)
+  if (length(first_cor_list)== 2){
+    v.table<- length(intersect(first_cor_list[[1]], first_cor_list[[2]]))
+  }  
+  else if (length(first_cor_list)== 3){
+    v.table<- length(intersect(first_cor_list[[1]], first_cor_list[[2]], first_cor_list[[3]]))
+  }  
+  else if (length(first_cor_list)== 4){
+    v.table<- length(intersect(first_cor_list[[1]], first_cor_list[[2]], first_cor_list[[3]], first_cor_list[[4]]))
+  }  
+  else if (length(first_cor_list)== 5){
+    v.table<- length(intersect(first_cor_list[[1]], first_cor_list[[2]], first_cor_list[[3]], first_cor_list[[4]],, first_cor_list[[5]]))
+  }  
+  
   return(list('MoranIndex' = MI_array, 'Venn.Diagram' =v.table ))
 }
 
