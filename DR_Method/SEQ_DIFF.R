@@ -381,4 +381,41 @@ seq_permutation_test <- function(data, data_ref, list_K, n=30, graph = TRUE){
   return(list(WT,p))
 }
 
+############################################################################################################
 
+SD_map_f <- function(SD_df, Coords_df, legend_pos = "right" ){
+  
+  # SD_df data frame such as :
+  #  col1 = Sample_ID, col2 = k, col3 = SD_values
+  # Coords_df data frame such as :
+  # col1 = Sample_ID, col2 = AxisX, col3 = AxisY
+  
+  colnames(SD_df) <- c("Sample_ID", "k", "SD")
+  SD_df <- SD_df[order(SD_df$Sample_ID),]
+  SD_df$Sample_ID <- as.character( SD_df$Sample_ID)
+  unique_sample_id <- as.character(unique(SD_df$Sample_ID)) 
+  SDmeans_ID <- unlist(lapply(1:length(unique_sample_id), function(i){
+    mean(SD_df$SD[which(SD_df$Sample_ID == unique_sample_id [i])])
+  }))
+  colnames(Coords_df) <- c("Sample_ID", "V1", "V2")
+  Coords_df <- Coords_df[order(Coords_df$Sample_ID),]
+  SD_Coords_df <- cbind(  Coords_df, "SD" = SDmeans_ID)
+  SD_Coords_df <- SD_Coords_df[order(SD_Coords_df$SD, decreasing = T),]
+  pSD_Main <- ggplot(  SD_Coords_df, aes(x=V1, y=V2,  color=SD/max(SD))) +  geom_point(size=4, alpha =.8) + scale_color_distiller(palette = "Spectral")
+  pSD_Main <- pSD_Main +  labs(title="", 
+                               y=TeX("dim2"), x="dim1") +
+    theme( legend.position = legend_pos,
+           plot.title=element_text(size=16, face="bold", hjust=0.5,lineheight=1.2),  # title
+           plot.subtitle =element_text(size=14, hjust=0.5),
+           plot.caption =element_text(size=12,  hjust=0.5),
+           axis.title.x=element_text(size=16),  # X axis title
+           axis.title.y=element_text(size=16),  # Y axis title
+           axis.text.x=element_text(size=14),  # X axis text
+           axis.text.y=element_text(size=14),
+           legend.text = element_text(size = 10) ,
+           legend.title = element_blank())#+  guides(col = guide_legend( ncol = 2))  # Y axis text
+  
+  return(list(SD_Coords_df,pSD_Main))
+  
+  
+}
