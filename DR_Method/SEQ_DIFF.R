@@ -284,10 +284,10 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
     p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values k  between each method and the reference one. ",
-         y=TeX("$log(\\bar{SD_k})$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+         y=TeX("$log(\\bar{SD}_k)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                    plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                    plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
-                                                   axis.title.x=element_text(size=12, face="bold"),  # X axis title
+                                                   axis.title.x=element_text(size=12, face="italic"),  # X axis title
                                                    axis.title.y=element_text(size=12, face="bold"),  # Y axis title
                                                    axis.text.x=element_text(size=12),  # X axis text
                                                    axis.text.y=element_text(size=12))  # Y axis text
@@ -306,10 +306,10 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
     p <- p +  labs(title="Sequence difference metric", caption = "Means of sequence difference values k  between each method and the reference one. ",
-                   y=TeX("$log(\\bar{SD_k})$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+                   y=TeX("$log(\\bar{SD}_k)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                      plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                      plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
-                                                     axis.title.x=element_text(size=12, face="bold"),  # X axis title
+                                                     axis.title.x=element_text(size=12, face="italic"),  # X axis title
                                                      axis.title.y=element_text(size=12, face="bold"),  # Y axis title
                                                      axis.text.x=element_text(size=12),  # X axis text
                                                      axis.text.y=element_text(size=12))  # Y axis text
