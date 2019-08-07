@@ -24,7 +24,7 @@ library(plotly)
 #library(spatial)
 #library(raster)
 library(spdep)
-library(FNN)
+#library(FNN)
 library(rspatial)
 library(latex2exp)
 library(VennDiagram)
@@ -44,5 +44,7 @@ custom.col <<- append(custom.col, brewer.pal(n = 12, name = "Paired"))
 #cols(23)
 
 # _________________
+library(devtools)
+install_github("r-spatial/spdep")
 
 
