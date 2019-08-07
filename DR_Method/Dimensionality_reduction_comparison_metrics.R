@@ -44,7 +44,7 @@ custom.col <<- append(custom.col, brewer.pal(n = 12, name = "Paired"))
 #cols(23)
 
 # _________________
-library(devtools)
-install_github("r-spatial/spdep")
+#library(devtools)
+#install_github("r-spatial/spdep")
 
 

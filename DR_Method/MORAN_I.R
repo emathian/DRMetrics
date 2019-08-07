@@ -281,8 +281,6 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
     if(is.null(Ylab)){
       Ylab <-"Moran.Index"
     }
-    
-    
     p <- ggplot(df_graph, aes(x=Attributes, y=moranI,  group=Methods, color = Methods)) +  geom_point(size = 4)+
       scale_color_viridis(discrete=TRUE) 
     p <- p +  labs(title=Title, caption = "Moran indexes for each variable and for each method. ",
@@ -312,7 +310,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
         colnames(data) <- as.character(seq(dim(data)[2]))
       }
       for (i in 1:dim(data)[1]){
-        cm <- rownames(data)[i]
+        cm <- rep(rownames(data)[i],dim(data)[1])
         vect_metod <- c(vect_metod, cm)
         moranI <- c(moranI, data[i, , k])
         att <- colnames(data)
@@ -324,8 +322,8 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
       moranI_k <- c(moranI_k, moranI)
       att_k <- c(att_k, att_I)
     }
-
     df_graph <- data.frame("Methods" = as.character(vect_metod_k), "Attributes" =att_k, "moranI" = moranI_k, "K_level" =  as.numeric(k_vect))
+    print(head(df_graph))
     
     if (is.null(Title)){
       Title <- "Moran indexes by attribute according "
@@ -337,25 +335,29 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
       Ylab <-"Moran.Index"
     }
     list_p <- list()
-    for ( i in 1:length(rownames(data))){
-    df_graph_c <- df_graph[ df_graph$Methods == rownames(data)[i],]
-    p <- ggplot(df_graph_c, aes(x=as.numeric(K_level), y=moranI, color = Attributes)) + geom_point()+
-      scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , caption = "Moran indexes distribution by k level for each variable and for each method. ",
-                   y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
-                                           plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
-                                           plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
-                                           axis.title.x=element_text(size=12, face="bold"),  # X axis title
-                                           axis.title.y=element_text(size=12, face="bold"),  # Y axis title
-                                           axis.text.x=element_text(size=12),  # X axis text
-                                           axis.text.y=element_text(size=12))  # Y axis text
-    print(p) 
-    list_p <- c(list_p, p)
+    for ( i in 1:length(unique(df_graph$Attributes))){
+      df_graph$Attributes <- as.character(df_graph$Attributes)
+      df_graph_c <- df_graph[ df_graph$Attributes == unique(df_graph$Attributes)[i],]
+      print("df_graph_c")
+      print(unique(as.character(df_graph_c$Methods)))
+      p <- ggplot(df_graph_c, aes(x=as.numeric(K_level), y=moranI, color = as.factor(Methods))) + geom_point()+
+        scale_color_viridis(discrete=TRUE) 
+      p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , caption = "Moran indexes distribution by k level for each variable and for each method. ",
+                     y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+                                             plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
+                                             plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
+                                             axis.title.x=element_text(size=12, face="bold"),  # X axis title
+                                             axis.title.y=element_text(size=12, face="bold"),  # Y axis title
+                                             axis.text.x=element_text(size=12),  # X axis text
+                                             axis.text.y=element_text(size=12))  # Y axis text``
+      print(p)
+      list_p <- c(list_p, p)
     }
     return(list(list_p, df_graph))
     
   }
 }
+###############################
 ##########################################################################################################
 moran_ranking <-function(l_coords_data , spatial_data, K_value, N  ,ref=NULL,methods_name = NULL){
   methods_names <- names(l_coords_data)
