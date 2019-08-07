@@ -31,9 +31,9 @@ library(latex2exp)
 library(venn)
 library(viridis)
 library(foreach)
-source("../DR_Method/SEQ_DIFF.R") 
-source("../DR_Method/CP.R") 
-source("../DR_Method/MORAN_I.R")
+source("/DRMetrics/DR_Method/DR_Method/SEQ_DIFF.R") 
+source("/DRMetrics/DR_Method/DR_Method/CP.R") 
+source("/DRMetrics/DR_Method/DR_Method/MORAN_I.R")
 # My colors : 
 # -----------
 
