@@ -23,9 +23,9 @@ library(VennDiagram)
 library(venn)
 library(viridis)
 library(foreach)
-source("SEQ_DIFF.R") 
-source("CP.R") 
-source("MORAN_I.R")
+source("../DR_Method/SEQ_DIFF.R") 
+source("../DR_Method/CP.R") 
+source("../DR_Method/MORAN_I.R")
 
 
 # _________________
