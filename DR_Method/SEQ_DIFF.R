@@ -26,10 +26,11 @@ Merging_function <- function(l_data, dataRef){
 # ------------------------------
 
 ############################################################################################
-Seq_calcul <- function(l_data, dataRef, listK){
+Seq_calcul <- function(   l_data, dataRef, listK){
   # __________ Clusters initialization ______
-  no_cores <- detectCores() # - 1
+  no_cores <- 1#detectCores() # - 1
   cl <- makeCluster(no_cores)
+  print( no_cores)
   registerDoParallel(cl)
   # _________________________________________
   global_seq_list <- list()
@@ -58,8 +59,8 @@ Seq_calcul <- function(l_data, dataRef, listK){
     colnames(dist2) <- as.character(dataRef[ ,1])
     # ____________________________________________
     seq_c_data <- data.frame()
-     #seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
-    for(i in 1:length(listK)){
+    seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
+    #for(i in 1:length(listK)){
     k <- listK[i]
     colnames(c_data)[1] <- 'Sample_ID'  ; colnames(dataRef)[1] <- 'Sample_ID'
     if (dim(c_data)[1] != dim(dataRef)[1]){
@@ -86,10 +87,10 @@ Seq_calcul <- function(l_data, dataRef, listK){
 
     seq_diff_l <- c()
     n <- dim(dist1)[1]
-    for (i in 1:n){
-      c_point <- rownames(dist1)[i]
-      N1_dist_l <- list(dist1[i, ])[[1]]
-      N2_dist_l <- list(dist2[i, ])[[1]]
+    for (ii in 1:n){
+      c_point <- rownames(dist1)[ii]
+      N1_dist_l <- list(dist1[ii, ])[[1]]
+      N2_dist_l <- list(dist2[ii, ])[[1]]
         
       names(N1_dist_l) <- rownames(dist1)
       names(N2_dist_l) <- rownames(dist2)
@@ -329,7 +330,6 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
   } 
 }
 ############################################################################################
-
 ############################################################################################
 seq_permutation_test <- function(data, data_ref, list_K, n=30, graph = TRUE){
   

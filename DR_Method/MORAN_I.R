@@ -22,6 +22,8 @@ moran_I_main <-function(l_coords_data , spatial_data, listK, nsim = 500, Stat=FA
   }
   l_coords_data <- L_coords_data
   MI_array <- array(rep(NA, length(l_coords_data)* (dim(spatial_data)[2]-1)*length(listK)), dim=c(length(l_coords_data), (dim(spatial_data)[2]-1), length(listK)))
+  MI_MY_array <- array(rep(NA, length(l_coords_data)* (dim(spatial_data)[2]-1)*length(listK)), dim=c(length(l_coords_data), (dim(spatial_data)[2]-1), length(listK)))
+  
   MS_array <- array(rep(NA, length(l_coords_data)* (dim(spatial_data)[2]-1)*length(listK)), dim=c(length(l_coords_data), (dim(spatial_data)[2]-1), length(listK)))
   for (i in 1:length(l_coords_data)){
     c_data <- l_coords_data[[i]]
@@ -31,22 +33,9 @@ moran_I_main <-function(l_coords_data , spatial_data, listK, nsim = 500, Stat=FA
       c_data <- as.matrix(c_data[, 2:dim(c_data)[2]])
     }
     for (c_k in 1:length(listK)){
-      if (dim(c_data)[2] == 2){
-        k_neigh <- knn2nb(knearneigh(c_data, k=listK[c_k], RANN=FALSE))
-        ww <- nb2listw(k_neigh, style='B')
-      }
+     
       for (j in 2:dim(spatial_data)[2]){
-
-        if (dim(c_data)[2] == 2){
-          MI <- moran(spatial_data[, j], ww, n=length(ww$neighbours), S0=Szero(ww))
-          MI_array[i,(j-1),c_k] <- MI$I
-          if (Stat != FALSE){
-            MS <- moran.mc(spatial_data[, j], ww, nsim=99)
-            MS_array[i,(j-1),c_k] <- MS$p.value
-          }
-        }
-        else{
-          c_spatial_data <- data.frame("Sample_ID"= as.character(c_sample_id), "att" = spatial_data[, j] )
+           c_spatial_data <- data.frame("Sample_ID"= as.character(c_sample_id), "att" = spatial_data[, j] )
           MI <- moran_index_HD(data = c_data, spatial_att = c_spatial_data, K = listK[c_k], merge = FALSE)
           MI_array[i,(j-1),c_k] <- MI 
           if (Stat != FALSE){
@@ -56,7 +45,6 @@ moran_I_main <-function(l_coords_data , spatial_data, listK, nsim = 500, Stat=FA
         }
       } 
     }
-  }
   for (k in 1:length(listK)){
     if(is.null(methods_name)==F & length(methods_name) == dim(MI_array)[1]){
        rownames(MI_array) <- methods_name
@@ -79,7 +67,7 @@ moran_I_main <-function(l_coords_data , spatial_data, listK, nsim = 500, Stat=FA
     return(list('MoranIndex' = MI_array,'MoranStat'= MS_array))
   }
   else{
-    return(list('MoranIndex' = MI_array))
+    return(list('MoranIndex' = MI_array, 'MI_MY_array' = MI_MY_array))
   }
 }
 
@@ -114,12 +102,13 @@ moran_index_HD <- function(data, spatial_att, K, merge = TRUE){
   g <- expand.grid(dy, dy)
   yiyj <- g[,1] * g[,2]
   pm <- matrix(yiyj, ncol=n)
-  pmw <- pm * m_neigh
-  spmw <- sum(pmw)
+  pmw <- pm * m_neigh ; 
+  spmw <- sum(pmw) ; 
   smw <- sum(m_neigh)
   sw <-spmw/smw
   vr <- n / sum(dy^2)
   MI <- vr * sw
+  MI
   return(MI)
 }
 #########################################################################################
