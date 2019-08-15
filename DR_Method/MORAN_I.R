@@ -239,6 +239,8 @@ moran_I_scatter_plot <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
 }
 
 ########################################################################################
+
+########################################################################################
 moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
   custom.col <- c( '#1E90FF', '#6C3483','#D81B60',  '#B22222', "#D16103",  "#FFD700",  '#2ECC71',"#33691E", '#626567',"#17202A") 
   
@@ -272,7 +274,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
     }
     p <- ggplot(df_graph, aes(x=Attributes, y=moranI,  group=Methods, color = Methods)) +  geom_point(size = 4)+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title=Title, 
+    p <- p +  labs(title=Title, caption = "Moran indexes for each variable and for each method. ",
                    y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                            plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                            plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -328,7 +330,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
 
       p <- ggplot(df_graph_c, aes(x=as.numeric(K_level), y=moranI, color = as.factor(Methods))) + geom_point()+
         scale_color_viridis(discrete=TRUE) 
-      p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , 
+      p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , caption = "Moran indexes distribution by k level for each variable and for each method. ",
                      y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                              plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                              plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -343,7 +345,6 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
     
   }
 }
-###############################
 ##########################################################################################################
 moran_ranking <-function(l_coords_data , spatial_data, K_value, N  ,ref=NULL,methods_name = NULL){
   methods_names <- names(l_coords_data)
