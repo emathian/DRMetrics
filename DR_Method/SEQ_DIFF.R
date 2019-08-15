@@ -295,7 +295,7 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     theme_set(theme_bw())
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Sequence difference metric", y=("$log(\\bar{SD_k})$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+    p <- p +  labs(title="Sequence difference metric", y=TeX("mean(SD)_k"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                    plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                    plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                    axis.title.x=element_text(size=12, face="italic"),  # X axis title
@@ -317,7 +317,7 @@ Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_
     theme_set(theme_bw())
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_seq,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Sequence difference metric",   y=("$log(\\bar{SD_k})$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+    p <- p +  labs(title="Sequence difference metric",   y=TeX("log(mean(SD)_k)"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                      plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                      plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                      axis.title.x=element_text(size=12, face="italic"),  # X axis title
@@ -379,7 +379,7 @@ seq_permutation_test <- function(data, data_ref, list_K, n=30, graph = TRUE){
   p <- p + geom_line(data = c_MA_df, aes(x=k, y = main_df), colour = '#388E3C')+geom_point(data = c_MA_df, aes(x=k, y=main_df), colour ='#388E3C')
   
   p <- p +  labs(title="Significance test of the Sequence difference metric",
-                 y=TeX("$\\bar{SD_k} = \\frac{1}{N} \\sum_{i=1}^N SD_{i,k}$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+                 y=TeX("mean(SD)_k"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                    plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                    plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                    axis.title.x=element_text(size=12, face="bold"),  # X axis title
