@@ -131,7 +131,7 @@ CP_main <- function(l_data , list_K , dataRef = NULL , colnames_res_df = NULL , 
       p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_cp,  color=Method)) + geom_line() + geom_point()+
         scale_color_viridis(discrete=TRUE) 
       p <- p +  labs(title="Centrality preservation", caption = "Means of absolulte differences by k, of CP values' between each method and the reference one. ",
-                     y=TeX("CP_k"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+                     y=TeX("$DCP_k =\\frac{1}{N} \\sum_{i=1}^N |CP_i^2 -CP_i^N |$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                              plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                              plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                              axis.title.x=element_text(size=12, face="bold"),  # X axis title
@@ -225,8 +225,8 @@ CP_graph_by_k  <-function (data_CP,  ref_CP_data, Names=NULL, list_col=NULL, log
   if (log==FALSE){
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=diff_cp,  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Centrality preservation",
-                 y=TeX("CP_k"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+    p <- p +  labs(title="Centrality preservation", caption = "Means of absolulte differences by k, of CP values' between each method and the reference one. ",
+                 y=TeX("$DCP_k =\\frac{1}{N} \\sum_{i=1}^N |CP_i^2 -CP_i^N |$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                          plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                          plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                          axis.title.x=element_text(size=12, face="bold"),  # X axis title
@@ -237,8 +237,8 @@ CP_graph_by_k  <-function (data_CP,  ref_CP_data, Names=NULL, list_col=NULL, log
   else {
     p <- ggplot(data_diff_mean_k_graph, aes(x=k, y=log(diff_cp),  color=Method)) + geom_line() + geom_point()+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title="Log Centrality preservation", 
-                   y=TeX("log(CP_k)"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+    p <- p +  labs(title="Log Centrality preservation", caption = "Means of absolulte differences by k, of CP values' between each method and the reference one. ",
+                   y=TeX("$log(DCP_k) =log(\\frac{1}{N} \\sum_{i=1}^N |CP_i^2 -CP_i^N |)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                            plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                            plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                            axis.title.x=element_text(size=12, face="bold"),  # X axis title
@@ -396,7 +396,7 @@ CP_permutation_test <- function(data, data_ref, list_K, n=30, graph = TRUE){
   p <- p + geom_line(data = c_df_MA, aes(x=k, y=abs_diff), colour = '#388E3C')+geom_point(data = c_df_MA, aes(x=k, y=abs_diff), colour = '#388E3C')
   
   p <- p +  labs(title="Centrality preservation signicance test",
-                 y=TeX("CP"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
+                 y=TeX("$\\frac{1}{N}\\sum_{i=1}^N(|CPi^{d1} - CP_i^{d2}|)$"), x="K") +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                                          plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                                          plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
                                                          axis.title.x=element_text(size=12, face="bold"),  # X axis title
