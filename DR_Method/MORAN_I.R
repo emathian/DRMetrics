@@ -175,7 +175,7 @@ moran_I_scatter_plot <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
     
     p <- ggplot(df_graph, aes(x=Attributes, y=moranI,  group=Methods, color = Methods)) +  geom_point(size = 4)+
       scale_colour_manual(values=custom.col[1:length(unique(df_graph$Methods))])
-    p <- p +  labs(title=Title, caption = "Moran indexes for each variable and for each method. ",
+    p <- p +  labs(title=Title, 
                    y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                            plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                            plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -224,7 +224,7 @@ moran_I_scatter_plot <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
     }
     p <- ggplot(df_graph, aes(x=Attributes, y=moranI,   fill = Methods)) + geom_boxplot(notch=F)+
       scale_fill_manual(values=custom.col[1:length(unique(df_graph$Methods))])
-    p <- p +  labs(title=Title, caption = "Moran indexes distribution by k level for each variable and for each method. ",
+    p <- p +  labs(title=Title,
                    y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                            plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                            plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -272,7 +272,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
     }
     p <- ggplot(df_graph, aes(x=Attributes, y=moranI,  group=Methods, color = Methods)) +  geom_point(size = 4)+
       scale_color_viridis(discrete=TRUE) 
-    p <- p +  labs(title=Title, caption = "Moran indexes for each variable and for each method. ",
+    p <- p +  labs(title=Title,
                    y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                            plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                            plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
@@ -328,7 +328,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
 
       p <- ggplot(df_graph_c, aes(x=as.numeric(K_level), y=moranI, color = as.factor(Methods))) + geom_point()+
         scale_color_viridis(discrete=TRUE) 
-      p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , caption = "Moran indexes distribution by k level for each variable and for each method. ",
+      p <- p +  labs(title= paste(Title,  rownames(data)[i] ) ,
                      y=Ylab, x= Xlab) +theme(plot.title=element_text(size=18, face="bold", color="#17202A", hjust=0.5,lineheight=1.2),  # title
                                              plot.subtitle =element_text(size=13, color="#17202A", hjust=0.5),  # caption
                                              plot.caption =element_text(size=10, color="#17202A", hjust=0.5),  # caption
