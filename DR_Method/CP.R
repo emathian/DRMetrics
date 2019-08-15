@@ -28,7 +28,6 @@ Merging_function <- function(l_data, dataRef){
 
 ###########################################################################################################
 CP_main <- function(l_data , list_K , dataRef = NULL , colnames_res_df = NULL , filename = NULL , graphics = FALSE, stats = FALSE){
-  custom.col <- c( '#1E90FF',"#1A237E", '#6C3483','#D81B60',  '#B22222', "#D16103",  "#FFD700",  '#2ECC71',"#33691E", '#626567',"#17202A") 
 
   # __________ Distance matrices ____________
   l_dist = list()
@@ -63,8 +62,7 @@ CP_main <- function(l_data , list_K , dataRef = NULL , colnames_res_df = NULL , 
     list_CP[[I+1]] <- CPRef
     len_list_CP[[I+1]] <- length(CPRef[ ,1])
   }  
-  print('list of lengths')
-  print(len_list_CP)
+  
   # __________________ Writing option and CP Data Frame __________
   if (length(unique(len_list_CP))==1){
     df_to_write <- data.frame('Sample_ID' = list_CP[[1]]$Sample_ID, 'K' = list_CP[[1]]$K )
@@ -80,14 +78,12 @@ CP_main <- function(l_data , list_K , dataRef = NULL , colnames_res_df = NULL , 
       df_to_write <- merge(df_to_write, list_CP[[i]]$CP,  by=c('Sample_ID'))
       colnames(df_to_write)[dim(df_to_write)[2]] <- paste('V', i, sep="")
     }
-    print('ok1')
   }
   if (is.null(colnames_res_df) == FALSE){
     if (is.null(dataRef) == FALSE){
       colnames_res_df <- c(colnames_res_df, 'REF')
     }
     colnames(df_to_write)[3:length(colnames(df_to_write))] <- colnames_res_df
-    print('ok2')
   }
   
   if (is.null(filename) == FALSE) {
