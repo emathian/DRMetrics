@@ -137,12 +137,12 @@ moran_stat_HD <- function(data, K, spatial_att, obs_moran_I, nsim = 99){
   method <- "Monte-Carlo simulation of Moran I"
   lres <- list(statistic=statistic, parameter=parameter,
                p.value=pval, alternative="greater", method=method)
-  print(lres)
   return(lres)
 }
 
 #####################################################################
 moran_I_scatter_plot <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
+  custom.col <- c( '#1E90FF', '#6C3483','#D81B60',  '#B22222', "#D16103",  "#FFD700",  '#2ECC71',"#33691E", '#626567',"#17202A") 
   if (dim(data)[3] == 1){
     data = data[,,1]
     vect_metod <- c()
@@ -232,7 +232,7 @@ moran_I_scatter_plot <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL){
                                            axis.title.y=element_text(size=12, face="bold"),  # Y axis title
                                            axis.text.x=element_text(size=12),  # X axis text
                                            axis.text.y=element_text(size=12))  # Y axis text
-    print(p) 
+    print(p)
     return(list(p,df_graph))
     
   }
@@ -299,7 +299,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
         colnames(data) <- as.character(seq(dim(data)[2]))
       }
       for (i in 1:dim(data)[1]){
-        cm <- rep(rownames(data)[i],dim(data)[1])
+        cm <- rep(rownames(data)[i],dim(data)[2])
         vect_metod <- c(vect_metod, cm)
         moranI <- c(moranI, data[i, , k])
         att <- colnames(data)
@@ -312,8 +312,6 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
       att_k <- c(att_k, att_I)
     }
     df_graph <- data.frame("Methods" = as.character(vect_metod_k), "Attributes" =att_k, "moranI" = moranI_k, "K_level" =  as.numeric(k_vect))
-    print(head(df_graph))
-    
     if (is.null(Title)){
       Title <- "Moran indexes by attribute according "
     }
@@ -327,8 +325,7 @@ moran_I_scatter_plot_by_k <- function(data, Xlab = NULL, Ylab=NULL, Title= NULL)
     for ( i in 1:length(unique(df_graph$Attributes))){
       df_graph$Attributes <- as.character(df_graph$Attributes)
       df_graph_c <- df_graph[ df_graph$Attributes == unique(df_graph$Attributes)[i],]
-      print("df_graph_c")
-      print(unique(as.character(df_graph_c$Methods)))
+
       p <- ggplot(df_graph_c, aes(x=as.numeric(K_level), y=moranI, color = as.factor(Methods))) + geom_point()+
         scale_color_viridis(discrete=TRUE) 
       p <- p +  labs(title= paste(Title,  rownames(data)[i] ) , caption = "Moran indexes distribution by k level for each variable and for each method. ",
