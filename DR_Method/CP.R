@@ -1,30 +1,3 @@
-# -----------------
-#  Tools function :
-# ----------------
-Merging_function <- function(l_data, dataRef){
-  colnames(dataRef)[1] <- "Sample_ID"
-  res_l_data <- list()
-  for (i in 1:length(l_data)){
-    c_data <- l_data[[i]]
-    colnames(c_data)[1] <- "Sample_ID"
-    if (dim(c_data)[1] != dim(dataRef)[1]){
-      warning(paste("The data frame[" ,  i ,")] doesn't have the same number of lines than `dataRef`. An inner join will be effecte") )
-    }
-    else if(sum(c_data[, 1] == dataRef[, 1]) != length(c_data[, 1])){
-      warning(paste("Sample_IDs in data frame [", i,"] and dataRef are not the same, or are not in the same order. An inner join will be effected.", sep =""))
-    }
-    data_m <- merge(dataRef, c_data, by = "Sample_ID")
-    dataRef <- dataRef[, 1:dim(dataRef)[2]]
-    r_data <- data_m[,(dim(dataRef)[2] + 1):dim(data_m)[2]]
-    r_data <- cbind(data_m[, 1], r_data)
-    colnames(r_data)[1] <- 'Sample_ID'
-    res_l_data[[i]] <- r_data
-  }
-  return(list(res_l_data, dataRef))
-}
-
-# ------------------
-
 
 ###########################################################################################################
 CP_main <- function(l_data , list_K , dataRef = NULL , colnames_res_df = NULL , filename = NULL , graphics = FALSE, stats = FALSE){
