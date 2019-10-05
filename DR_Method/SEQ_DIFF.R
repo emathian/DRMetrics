@@ -26,7 +26,8 @@ Merging_function <- function(l_data, dataRef){
 # ------------------------------
 
 ############################################################################################
-Seq_calcul <- function(   l_data, dataRef, listK){
+Seq_calcul <- function( l_data, dataRef, listK){
+
   # __________ Clusters initialization ______
   no_cores <- detectCores() # - 1
   cl <- makeCluster(no_cores)
@@ -230,10 +231,10 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
         print(WT)
       }
       if (graphics == TRUE){
-        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p, 'stats' = list("WT" = WT)))
+        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p, 'paired_test' = WT))
       }
       else{
-        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'stats' = list("WT" = WT)))
+        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'paired_test' =  WT))
       }
     }
     else{
@@ -250,10 +251,10 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
         
       }
       if (graphics == TRUE){
-        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p,  'pWT' = paired_test_m ))
+        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p,  'pairwise_tests' = paired_test_m ))
       }
       else{
-        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k,  'pWT' = paired_test_m ))
+        return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k,  'pairwise_tests' = paired_test_m ))
       }
     }
     warning('Unexpected request ')
@@ -262,7 +263,7 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
 ############################################################################################
 
 ############################################################################################
-Seq_graph_by_k  <-function (data_Seq, Names=NULL, list_col=NULL, data_diff_mean_K = NULL, log = FALSE){
+Seq_graph_by_k  <-function (data_Seq, Names=NULL, data_diff_mean_K = NULL, log = FALSE){
   if (is.null(data_diff_mean_K) == TRUE) {
     data_diff_mean_k <- data.frame("k" =  unique(data_Seq$K))
     for (j in seq(from = 3, to = dim(data_Seq)[2], by = 1)) {
