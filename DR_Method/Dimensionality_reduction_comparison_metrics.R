@@ -12,19 +12,19 @@
 # 
 # 
 
-library(foreach)
-library(doParallel)
-library(ggplot2)
-library(RColorBrewer)
-library(plotly)
-library(FNN)
-library(latex2exp)
-library(VennDiagram)
-library(venn)
-library(viridis)
-library(foreach)
+# library(foreach)
+# library(doParallel)
+# library(ggplot2)
+# library(RColorBrewer)
+# library(plotly)
+# library(FNN)
+# library(latex2exp)
+# library(VennDiagram)
+# library(venn)
+# library(viridis)
+# library(foreach)
 source("/DRMetrics/DR_Method/SEQ_DIFF.R") 
-source("/DRMetrics/DR_Method/CP.R") 
+# source("/DRMetrics/DR_Method/CP.R") 
 source("/DRMetrics/DR_Method/MORAN_I.R")
 
 
