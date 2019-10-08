@@ -145,7 +145,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
       seq_c_data <- rbind( seq_c_data,   seq_diff_k_df )
 
     }
-    print(dim(seq_c_data),"DIM seq_c_data")
+    print(dim(seq_c_data))
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
     
     global_seq_list[[I]] <- seq_c_data
@@ -202,14 +202,14 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
   }
   
   data_Seq <- df_to_write
-  print(dim(data_Seq),"data_Seq")
+  print(dim(data_Seq))
   data_diff_mean_k <- data.frame("k" =  unique(data_Seq$K))
   for (j in seq(from = 3, to = dim(data_Seq)[2], by = 1)) {
     mean_by_k <- tapply(data_Seq[, j], data_Seq$K, mean)
     data_diff_mean_k <- cbind(data_diff_mean_k, mean_by_k)
 
   }
-  print("DIM data_diff_mean_k", dim(data_diff_mean_k))
+  print(dim(data_diff_mean_k))
   colnames(data_diff_mean_k)[2:length(colnames(data_diff_mean_k))] <- colnames(data_Seq)[3:dim(data_Seq)[2]]
   if (graphics == FALSE & stats == FALSE){
     return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k))
