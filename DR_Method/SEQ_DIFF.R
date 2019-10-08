@@ -29,7 +29,7 @@ Merging_function <- function(l_data, dataRef){
 Seq_calcul <- function( l_data, dataRef, listK){
 
   # __________ Clusters initialization ______
-  no_cores <- 4 #detectCores() # - 1
+  no_cores <- detectCores() # - 1
   cl <- makeCluster(no_cores)
   registerDoParallel(cl)
   # _________________________________________
@@ -49,6 +49,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
     dataRef <- data_m[, (dim(c_data)[2]+1):dim(data_m)[2]]
     dataRef <- cbind(data_m[, 1], dataRef)
     colnames(dataRef)[1] <- 'Sample_ID'
+    print("here 1")
     #________________ Distances matrices __________
     dist1 <- as.matrix(dist(c_data[, 2:dim(c_data)[2]], method = "euclidian", diag = TRUE, upper = TRUE))
     rownames(dist1) <- as.character(c_data[ ,1])
@@ -57,6 +58,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
     dist2 <- as.matrix(dist(dataRef[, 2:dim(dataRef)[2]], method = "euclidian", diag = TRUE, upper = TRUE))
     rownames(dist2) <- as.character(dataRef[ ,1])
     colnames(dist2) <- as.character(dataRef[ ,1])
+    print("here 2")
     # ____________________________________________
     seq_c_data <- data.frame()
     seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
@@ -69,6 +71,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
     else if (sum(c_data[, 1] == dataRef[, 1]) != length(c_data[, 1])){
       warning("Sample_IDs in `c_data` and `dataRef` are not the same, or are not in the same order. An inner join will be effected.")
     }
+    print("here 3")
     data_m <- merge(c_data, dataRef, by = 'Sample_ID')
     ncol_c_data <- dim(c_data)[2]
     c_data <- data_m[, 1:dim(c_data)[2]]
@@ -137,13 +140,21 @@ Seq_calcul <- function( l_data, dataRef, listK){
       S = 0.5 * s1 + 0.5 * s2
 
       seq_diff_l <- c(seq_diff_l,  S)
+      print("here4")
       }
       seq_diff_k_df <- data.frame('Sample_ID' = c_data$Sample_ID, 'K' = rep(k, length(c_data$Sample_ID)), 'Seq' = seq_diff_l)
-     # seq_diff_k_df
+      print("here5")
+    
+      # seq_diff_k_df
       seq_c_data <- rbind( seq_c_data,   seq_diff_k_df )
+      print("here6")
+      
     }
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
+    
     global_seq_list[[I]] <- seq_c_data
+    print("here7")
+    
   }
   stopCluster(cl)
   return(global_seq_list)
@@ -159,13 +170,15 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
   }
   dataRef <- l_data[[2]]
   l_data <- L_data
-  
+  print('here8')
   if (length(l_data) == 1 & stats == TRUE){
     warning("Statistical option are not available if `l_data` length is equal to 1.")
     stats =  FALSE
   }
   global_seq_list <- Seq_calcul(l_data , dataRef , listK )
   for (i in 1:length(global_seq_list)){
+    print('here9')
+    
     global_seq_list[[i]] <- global_seq_list[[i]][complete.cases(global_seq_list[[i]]), ]
   }
   
@@ -197,19 +210,26 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
   for (j in seq(from = 3, to = dim(data_Seq)[2], by = 1)) {
     mean_by_k <- tapply(data_Seq[, j], data_Seq$K, mean)
     data_diff_mean_k <- cbind(data_diff_mean_k, mean_by_k)
+    print('here10')
+    
   }
   colnames(data_diff_mean_k)[2:length(colnames(data_diff_mean_k))] <- colnames(data_Seq)[3:dim(data_Seq)[2]]
   if (graphics == FALSE & stats == FALSE){
     return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k))
   }
   if (graphics == TRUE){
+    
     p <- Seq_graph_by_k('nothing', Names=colnames_res_df, list_col=NULL, data_diff_mean_K = data_diff_mean_k)
-  }
+    print('here11')
+    
+   }
   else{ # graphics == False
     p <- 0 # Only to respect algorithm structure
   }
   if (graphics == TRUE & stats == FALSE){
     return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k, 'graphics' = p))
+    print('here12')
+    
   }
   if (stats == TRUE){
     if(dim(data_diff_mean_k)[2] == 2){
