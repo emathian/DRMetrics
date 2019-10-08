@@ -27,7 +27,7 @@ Merging_function <- function(l_data, dataRef){
 
 ############################################################################################
 Seq_calcul <- function( l_data, dataRef, listK){
-
+  print("ok1")
   # __________ Clusters initialization ______
   no_cores <- detectCores() # - 1
   cl <- makeCluster(no_cores)
@@ -59,6 +59,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
     colnames(dist2) <- as.character(dataRef[ ,1])
     # ____________________________________________
     seq_c_data <- data.frame()
+    print("ok2")
     seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
     
     k <- listK[i]
@@ -144,6 +145,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
       seq_c_data <- rbind( seq_c_data,   seq_diff_k_df )
 
     }
+    print(dim(seq_c_data),"DIM seq_c_data")
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
     
     global_seq_list[[I]] <- seq_c_data
@@ -167,7 +169,11 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
     warning("Statistical option are not available if `l_data` length is equal to 1.")
     stats =  FALSE
   }
+  print("Before cal")
+  
   global_seq_list <- Seq_calcul(l_data , dataRef , listK )
+  print("after cal")
+  
   for (i in 1:length(global_seq_list)){
     global_seq_list[[i]] <- global_seq_list[[i]][complete.cases(global_seq_list[[i]]), ]
   }
@@ -196,12 +202,14 @@ Seq_main <- function(l_data, dataRef, listK, colnames_res_df = NULL , filename =
   }
   
   data_Seq <- df_to_write
+  print(dim(data_Seq),"data_Seq")
   data_diff_mean_k <- data.frame("k" =  unique(data_Seq$K))
   for (j in seq(from = 3, to = dim(data_Seq)[2], by = 1)) {
     mean_by_k <- tapply(data_Seq[, j], data_Seq$K, mean)
     data_diff_mean_k <- cbind(data_diff_mean_k, mean_by_k)
 
   }
+  print("DIM data_diff_mean_k", dim(data_diff_mean_k))
   colnames(data_diff_mean_k)[2:length(colnames(data_diff_mean_k))] <- colnames(data_Seq)[3:dim(data_Seq)[2]]
   if (graphics == FALSE & stats == FALSE){
     return(list('Seq_df' = df_to_write, 'Seq_mean_by_k' = data_diff_mean_k))
