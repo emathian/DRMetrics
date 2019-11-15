@@ -29,7 +29,7 @@ Merging_function <- function(l_data, dataRef){
 Seq_calcul <- function( l_data, dataRef, listK){
   print('hea')
   # __________ Clusters initialization ______
-  no_cores <-  1 # detectCores()
+  no_cores <-   detectCores()
   cl <- makeCluster(no_cores)
   registerDoParallel(cl)
   # _________________________________________
@@ -144,7 +144,7 @@ Seq_calcul <- function( l_data, dataRef, listK){
     }
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
     global_seq_list[[I]] <- seq_c_data
-  #}
+  }
   stopCluster(cl)
   return(global_seq_list)
 }
