@@ -140,7 +140,8 @@ Seq_calcul <- function( l_data, dataRef, listK){
       }
       seq_diff_k_df <- data.frame('Sample_ID' = c_data$Sample_ID, 'K' = rep(k, length(c_data$Sample_ID)), 'Seq' = seq_diff_l)
      # seq_diff_k_df
-      seq_c_data #<- rbind( seq_c_data, seq_diff_k_df )
+      seq_c_data <- rbind( seq_c_data, seq_diff_k_df )
+      seq_c_data 
     }
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
     global_seq_list[[I]] <- seq_c_data
