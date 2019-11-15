@@ -27,11 +27,11 @@ Merging_function <- function(l_data, dataRef){
 
 ############################################################################################
 Seq_calcul <- function( l_data, dataRef, listK){
-
+  print('here')
   # __________ Clusters initialization ______
-  #no_cores <-  1 # detectCores()
-  #cl <- makeCluster(no_cores)
-  #registerDoParallel(cl)
+  no_cores <-  1 # detectCores()
+  cl <- makeCluster(no_cores)
+  registerDoParallel(cl)
   # _________________________________________
   global_seq_list <- list()
   for (I in 1:length(l_data)){
@@ -58,8 +58,8 @@ Seq_calcul <- function( l_data, dataRef, listK){
     rownames(dist2) <- as.character(dataRef[ ,1])
     colnames(dist2) <- as.character(dataRef[ ,1])
     # ____________________________________________
-    seq_c_data <- data.frame()
-   # seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
+   # seq_c_data <- data.frame()
+    seq_c_data <- foreach(i=1:length(listK),.combine=rbind) %dopar% {
     for(i in 1:length(listK)){
     k <- listK[i]
     colnames(c_data)[1] <- 'Sample_ID'  ; colnames(dataRef)[1] <- 'Sample_ID'
@@ -139,13 +139,13 @@ Seq_calcul <- function( l_data, dataRef, listK){
       seq_diff_l <- c(seq_diff_l,  S)
       }
       seq_diff_k_df <- data.frame('Sample_ID' = c_data$Sample_ID, 'K' = rep(k, length(c_data$Sample_ID)), 'Seq' = seq_diff_l)
-     # seq_diff_k_df
-      seq_c_data <- rbind( seq_c_data, seq_diff_k_df )
+      seq_diff_k_df
+      #seq_c_data <- rbind( seq_c_data, seq_diff_k_df )
     }
     seq_c_data <- seq_c_data[order(seq_c_data$K),]
     global_seq_list[[I]] <- seq_c_data
   }
-  #stopCluster(cl)
+  stopCluster(cl)
   return(global_seq_list)
 }
 ############################################################################################
